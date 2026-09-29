@@ -1,26 +1,318 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #05070b;
+  --foreground: #f5f7fa;
+  --glass: rgba(255, 255, 255, 0.055);
+  --glass-strong: rgba(255, 255, 255, 0.085);
+  --glass-border: rgba(255, 255, 255, 0.11);
+  --cyan: #8be9ff;
+  --blue: #78a9ff;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--background);
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at 15% 5%,
+      rgba(55, 220, 255, 0.09),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 85% 30%,
+      rgba(90, 110, 255, 0.09),
+      transparent 32%
+    ),
+    #05070b;
   color: var(--foreground);
+  overflow-x: hidden;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ================================================= */
+/* LIQUID GLASS */
+/* ================================================= */
+
+.liquid-glass {
+  position: relative;
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.085),
+      rgba(255, 255, 255, 0.025)
+    );
+
+  border: 1px solid rgba(255, 255, 255, 0.11);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.13),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.02),
+    0 25px 70px rgba(0, 0, 0, 0.28);
+
+  backdrop-filter: blur(30px) saturate(150%);
+  -webkit-backdrop-filter: blur(30px) saturate(150%);
+}
+
+.liquid-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0.1),
+      transparent 24%,
+      transparent 72%,
+      rgba(255, 255, 255, 0.025)
+    );
+
+  opacity: 0.65;
+}
+
+.liquid-glass::after {
+  content: "";
+  position: absolute;
+
+  width: 45%;
+  height: 180%;
+
+  top: -40%;
+  left: -75%;
+
+  pointer-events: none;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.045),
+    transparent
+  );
+
+  transform: rotate(20deg);
+
+  animation: glassShimmer 14s ease-in-out infinite;
+}
+
+@keyframes glassShimmer {
+  0% {
+    left: -75%;
+  }
+
+  42% {
+    left: 135%;
+  }
+
+  100% {
+    left: 135%;
+  }
+}
+
+/* ================================================= */
+/* AMBIENT LIGHT */
+/* ================================================= */
+
+.ambient-light {
+  position: fixed;
+  pointer-events: none;
+  border-radius: 9999px;
+  filter: blur(120px);
+  opacity: 0.18;
+  animation: ambientFloat 18s ease-in-out infinite alternate;
+}
+
+.ambient-one {
+  width: 430px;
+  height: 430px;
+  left: 8%;
+  top: -180px;
+  background: rgba(60, 220, 255, 0.25);
+}
+
+.ambient-two {
+  width: 520px;
+  height: 520px;
+  right: -200px;
+  top: 35%;
+  background: rgba(90, 100, 255, 0.2);
+  animation-delay: -7s;
+}
+
+@keyframes ambientFloat {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  to {
+    transform: translate3d(45px, 30px, 0) scale(1.08);
+  }
+}
+
+/* ================================================= */
+/* SPATIAL GRID */
+/* ================================================= */
+
+.spatial-grid {
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.025) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.025) 1px,
+      transparent 1px
+    );
+
+  background-size: 48px 48px;
+
+  mask-image: linear-gradient(
+    to bottom,
+    black,
+    transparent 90%
+  );
+
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    black,
+    transparent 90%
+  );
+}
+
+/* ================================================= */
+/* GLASS BUTTON */
+/* ================================================= */
+
+.glass-button {
+  position: relative;
+  overflow: hidden;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  background: rgba(255, 255, 255, 0.05);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.glass-button:hover {
+  transform: translateY(-2px);
+
+  background: rgba(255, 255, 255, 0.08);
+
+  border-color: rgba(255, 255, 255, 0.2);
+
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.glass-button:active {
+  transform: scale(0.97);
+}
+
+/* ================================================= */
+/* PRIMARY BUTTON */
+/* ================================================= */
+
+.primary-button {
+  position: relative;
+  overflow: hidden;
+
+  background: linear-gradient(
+    135deg,
+    rgba(155, 240, 255, 0.96),
+    rgba(105, 190, 255, 0.9)
+  );
+
+  color: #031017;
+
+  box-shadow:
+    0 12px 38px rgba(72, 210, 255, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s ease,
+    filter 0.35s ease;
+}
+
+.primary-button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+
+  box-shadow:
+    0 18px 50px rgba(72, 210, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.primary-button:active {
+  transform: scale(0.97);
+}
+
+/* ================================================= */
+/* SELECTION GLOW */
+/* ================================================= */
+
+.selection-glow {
+  box-shadow:
+    0 0 0 1px rgba(139, 233, 255, 0.2),
+    0 0 35px rgba(80, 210, 255, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* ================================================= */
+/* SCROLLBAR */
+/* ================================================= */
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* ================================================= */
+/* REDUCED MOTION */
+/* ================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
